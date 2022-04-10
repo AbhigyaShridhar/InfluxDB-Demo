@@ -6,7 +6,7 @@ user = "openwisp"
 password = "openwisp"
 db = "openwisp2"
 
-client = InfluxDBClienthost, port, user, password, db)
+client = InfluxDBClient(host, port, user, password, db)
 
 #creating a database
 database = client.create_database("openwisp")
@@ -45,6 +45,12 @@ client.create_retention_policy(name="test_policy", duration='1h', replication=1)
 #alter an existing retention policy
 client.alter_retention_policy(name="test_policy", duration='2h', replication=1)
 
+#deleting data from a 'metric' basically data related to a specific set of events happening at regular intervals
+""" tags
+{'host': 'test_host'}
+key
+'test_load_short' """
+client.delete_series(measurement=key, tags=tags)
 
 #delete a database
-client.delete_database(db)
+client.drop_database(db)
