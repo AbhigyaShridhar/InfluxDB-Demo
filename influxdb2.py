@@ -23,3 +23,6 @@ point = Point("test_load_short").tag("host", "test_host").tag("region", "India")
 write_api.write(bucket=bucket, record=point)
 
 # query api
+query = '''from(bucket:"openwisp2") |> range(start: 0, stop: now()) |> filter(fn: (r) => r._measurement == "test_load_short")'''
+records = query_api.query_stream(query)
+# records is a 'generator object and needs to be modified if rpresentation is desired in the form of a dictionary or a json object'
